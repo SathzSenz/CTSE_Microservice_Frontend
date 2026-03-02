@@ -30,7 +30,7 @@ A production-ready authentication frontend built with Next.js 16 and Tailwind CS
 ### 1. Setup Environment
 ```bash
 # Copy environment variables
-cp .env.example .env.local
+cp .env
 
 # Edit .env.local with your values
 ```
@@ -191,13 +191,6 @@ npm run start
 # Lint
 npm run lint
 ```
-
-## 📚 Documentation
-
-- [Setup Guide](./SETUP_GUIDE.md) - Detailed setup instructions
-- [API Integration](./API_INTEGRATION.md) - Complete API documentation
-- [Auth Context](./lib/auth-context.tsx) - Auth provider implementation
-- [Protected Routes](./lib/protected-route.tsx) - Route protection logic
 
 ## 🛠️ Tech Stack
 
