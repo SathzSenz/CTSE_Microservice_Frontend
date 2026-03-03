@@ -36,21 +36,57 @@ export interface Order {
 }
 
 export const MOOD_CATEGORIES: MoodCategory[] = [
-  { id: 'happy',   label: 'Happy',   description: 'Brighten your day',      cardBg: 'bg-amber-50 border-amber-200 hover:bg-amber-100',   productCount: 4 },
-  { id: 'calm',    label: 'Calm',    description: 'Find your peace',         cardBg: 'bg-sky-50 border-sky-200 hover:bg-sky-100',         productCount: 4 },
-  { id: 'excited', label: 'Excited', description: 'Feel the energy',         cardBg: 'bg-orange-50 border-orange-200 hover:bg-orange-100', productCount: 3 },
-  { id: 'focused', label: 'Focused', description: 'Stay in the zone',        cardBg: 'bg-emerald-50 border-emerald-200 hover:bg-emerald-100', productCount: 4 },
-  { id: 'playful', label: 'Playful', description: 'Unleash your creativity', cardBg: 'bg-violet-50 border-violet-200 hover:bg-violet-100', productCount: 3 },
-  { id: 'luxe',    label: 'Luxe',    description: 'Indulge yourself',        cardBg: 'bg-yellow-50 border-yellow-200 hover:bg-yellow-100', productCount: 3 },
+  {
+    id: 'happy',
+    label: 'Happy',
+    description: 'Brighten your day',
+    cardBg: 'bg-gradient-to-br from-amber-200 via-amber-100 to-orange-100 border-amber-300',
+    productCount: 4,
+  },
+  {
+    id: 'calm',
+    label: 'Calm',
+    description: 'Find your peace',
+    cardBg: 'bg-gradient-to-br from-sky-200 via-sky-100 to-cyan-100 border-sky-300',
+    productCount: 4,
+  },
+  {
+    id: 'excited',
+    label: 'Excited',
+    description: 'Feel the energy',
+    cardBg: 'bg-gradient-to-br from-rose-200 via-orange-200 to-amber-100 border-orange-300',
+    productCount: 3,
+  },
+  {
+    id: 'focused',
+    label: 'Focused',
+    description: 'Stay in the zone',
+    cardBg: 'bg-gradient-to-br from-emerald-200 via-emerald-100 to-teal-100 border-emerald-300',
+    productCount: 4,
+  },
+  {
+    id: 'playful',
+    label: 'Playful',
+    description: 'Unleash your creativity',
+    cardBg: 'bg-gradient-to-br from-violet-200 via-fuchsia-200 to-indigo-100 border-violet-300',
+    productCount: 3,
+  },
+  {
+    id: 'luxe',
+    label: 'Luxe',
+    description: 'Indulge yourself',
+    cardBg: 'bg-gradient-to-br from-amber-200 via-yellow-100 to-stone-100 border-amber-300',
+    productCount: 3,
+  },
 ]
 
 export const MOOD_GRADIENTS: Record<Mood, string> = {
-  happy:   'from-amber-100 to-yellow-50',
-  calm:    'from-sky-100 to-blue-50',
-  excited: 'from-orange-100 to-red-50',
-  focused: 'from-emerald-100 to-teal-50',
-  playful: 'from-violet-100 to-purple-50',
-  luxe:    'from-yellow-100 to-amber-50',
+  happy:   'from-amber-200 via-amber-100 to-orange-100',
+  calm:    'from-sky-200 via-sky-100 to-cyan-100',
+  excited: 'from-rose-200 via-orange-200 to-amber-100',
+  focused: 'from-emerald-200 via-emerald-100 to-teal-100',
+  playful: 'from-violet-200 via-fuchsia-200 to-indigo-100',
+  luxe:    'from-amber-200 via-yellow-100 to-stone-100',
 }
 
 export const MOOD_ICON_COLORS: Record<Mood, string> = {
@@ -76,7 +112,7 @@ export const DUMMY_PRODUCTS: Product[] = [
     reviewCount: 312,
     badge: 'Best Seller',
     featured: true,
-    image: '/placeholder.jpg',
+    image: 'https://picsum.photos/seed/aura-p1/400/500',
   },
   {
     id: 'p2',
@@ -89,7 +125,7 @@ export const DUMMY_PRODUCTS: Product[] = [
     rating: 4.6,
     reviewCount: 189,
     featured: true,
-    image: '/placeholder-user.jpg',
+    image: 'https://picsum.photos/seed/aura-p2/400/500',
   },
   {
     id: 'p3',
@@ -103,7 +139,7 @@ export const DUMMY_PRODUCTS: Product[] = [
     reviewCount: 256,
     badge: 'Best Seller',
     featured: true,
-    image: '/placeholder.jpg',
+    image: 'https://picsum.photos/seed/aura-p3/400/500',
   },
   {
     id: 'p4',
@@ -116,7 +152,7 @@ export const DUMMY_PRODUCTS: Product[] = [
     rating: 4.9,
     reviewCount: 143,
     featured: true,
-    image: '/placeholder-user.jpg',
+    image: 'https://picsum.photos/seed/aura-p4/400/500',
   },
   {
     id: 'p5',
@@ -129,7 +165,7 @@ export const DUMMY_PRODUCTS: Product[] = [
     rating: 4.7,
     reviewCount: 98,
     badge: 'New',
-    image: '/placeholder.jpg',
+    image: 'https://picsum.photos/seed/aura-p5/400/500',
   },
   {
     id: 'p6',
@@ -141,7 +177,8 @@ export const DUMMY_PRODUCTS: Product[] = [
     stock: 54,
     rating: 4.5,
     reviewCount: 201,
-    image: '/placeholder-user.jpg',
+    featured: true,
+    image: 'https://picsum.photos/seed/aura-p6/400/500',
   },
   {
     id: 'p7',
@@ -154,7 +191,7 @@ export const DUMMY_PRODUCTS: Product[] = [
     rating: 4.8,
     reviewCount: 167,
     badge: 'Low Stock',
-    image: '/placeholder.jpg',
+    image: 'https://picsum.photos/seed/aura-p7/400/500',
   },
   {
     id: 'p8',
@@ -167,7 +204,7 @@ export const DUMMY_PRODUCTS: Product[] = [
     rating: 4.6,
     reviewCount: 214,
     reviewCount: 214,
-    image: '/placeholder-user.jpg',
+    image: 'https://picsum.photos/seed/aura-p8/400/500',
   },
   {
     id: 'p9',
@@ -180,7 +217,7 @@ export const DUMMY_PRODUCTS: Product[] = [
     rating: 4.4,
     reviewCount: 89,
     badge: 'Low Stock',
-    image: '/placeholder.jpg',
+    image: 'https://picsum.photos/seed/aura-p9/400/500',
   },
   {
     id: 'p10',
@@ -195,7 +232,7 @@ export const DUMMY_PRODUCTS: Product[] = [
     reviewCount: 77,
     badge: 'Sale',
     featured: true,
-    image: '/placeholder-user.jpg',
+    image: 'https://picsum.photos/seed/aura-p10/400/500',
   },
   {
     id: 'p11',
@@ -208,7 +245,8 @@ export const DUMMY_PRODUCTS: Product[] = [
     rating: 4.5,
     reviewCount: 132,
     badge: 'New',
-    image: '/placeholder.jpg',
+    featured: true,
+    image: 'https://picsum.photos/seed/aura-p11/400/500',
   },
   {
     id: 'p12',
@@ -220,6 +258,7 @@ export const DUMMY_PRODUCTS: Product[] = [
     stock: 11,
     rating: 4.8,
     reviewCount: 56,
+    image: 'https://picsum.photos/seed/aura-p12/400/500',
   },
   {
     id: 'p13',
@@ -231,6 +270,7 @@ export const DUMMY_PRODUCTS: Product[] = [
     stock: 40,
     rating: 4.4,
     reviewCount: 298,
+    image: 'https://picsum.photos/seed/aura-p13/400/500',
   },
   {
     id: 'p14',
@@ -242,6 +282,7 @@ export const DUMMY_PRODUCTS: Product[] = [
     stock: 35,
     rating: 4.7,
     reviewCount: 112,
+    image: 'https://picsum.photos/seed/aura-p14/400/500',
   },
   {
     id: 'p15',
@@ -254,7 +295,7 @@ export const DUMMY_PRODUCTS: Product[] = [
     rating: 4.8,
     reviewCount: 88,
     badge: 'Best Seller',
-    image: '/placeholder-user.jpg',
+    image: 'https://picsum.photos/seed/aura-p15/400/500',
   },
   {
     id: 'p16',
@@ -267,7 +308,7 @@ export const DUMMY_PRODUCTS: Product[] = [
     rating: 4.6,
     reviewCount: 173,
     badge: 'New',
-    image: '/placeholder.jpg',
+    image: 'https://picsum.photos/seed/aura-p16/400/500',
   },
   {
     id: 'p17',
@@ -280,7 +321,7 @@ export const DUMMY_PRODUCTS: Product[] = [
     rating: 4.5,
     reviewCount: 341,
     featured: true,
-    image: '/placeholder-user.jpg',
+    image: 'https://picsum.photos/seed/aura-p17/400/500',
   },
   {
     id: 'p18',
@@ -292,7 +333,7 @@ export const DUMMY_PRODUCTS: Product[] = [
     stock: 25,
     rating: 4.9,
     reviewCount: 64,
-    image: '/placeholder.jpg',
+    image: 'https://picsum.photos/seed/aura-p18/400/500',
   },
   {
     id: 'p19',
@@ -304,7 +345,7 @@ export const DUMMY_PRODUCTS: Product[] = [
     stock: 88,
     rating: 4.6,
     reviewCount: 229,
-    image: '/placeholder-user.jpg',
+    image: 'https://picsum.photos/seed/aura-p19/400/500',
   },
   {
     id: 'p20',
@@ -316,7 +357,7 @@ export const DUMMY_PRODUCTS: Product[] = [
     stock: 51,
     rating: 4.7,
     reviewCount: 185,
-    image: '/placeholder.jpg',
+    image: 'https://picsum.photos/seed/aura-p20/400/500',
   },
 ]
 

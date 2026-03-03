@@ -51,7 +51,7 @@ export function Footer() {
               Start Shopping
             </Link>
             <p className="text-sm text-white/40 max-w-xs lg:text-right leading-relaxed">
-              AURA curates products that match your current mood.
+              Sazzy Temu curates products that match your current mood.
               Sign up and get 15% off your first order.
             </p>
           </div>
@@ -65,7 +65,7 @@ export function Footer() {
           {/* Brand */}
           <div>
             <p className="text-lg font-extrabold tracking-tight mb-4">
-              AURA<span className="text-primary">.</span>
+            Sazzy Temu<span className="text-primary">.</span>
             </p>
             <p className="text-sm text-white/40 leading-relaxed max-w-[180px]">
               A mood-driven shopping experience curated for how you feel.
@@ -96,7 +96,7 @@ export function Footer() {
 
         {/* Copyright */}
         <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-3 pt-8 border-t border-white/10 text-xs text-white/30">
-          <p>© {new Date().getFullYear()} AURA. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Sazzy Temu. All rights reserved.</p>
           <p>SE4010 · SLIIT · Mood-Driven E-Commerce Platform</p>
         </div>
       </div>

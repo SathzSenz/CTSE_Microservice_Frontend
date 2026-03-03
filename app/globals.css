@@ -3,19 +3,84 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ABCDiatype — public/font/ABCDiatype */
 @font-face {
-  font-family: 'Plus Jakarta Sans';
-  src: url('/font/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf') format('truetype');
-  font-weight: 200 800;
+  font-family: 'ABCDiatype';
+  src: url('/font/ABCDiatype/ABCDiatype-Thin-Trial.otf') format('opentype');
+  font-weight: 100;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Plus Jakarta Sans';
-  src: url('/font/Plus_Jakarta_Sans/PlusJakartaSans-Italic-VariableFont_wght.ttf') format('truetype');
-  font-weight: 200 800;
+  font-family: 'ABCDiatype';
+  src: url('/font/ABCDiatype/ABCDiatype-Light-Trial.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABCDiatype';
+  src: url('/font/ABCDiatype/ABCDiatype-Regular-Trial.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABCDiatype';
+  src: url('/font/ABCDiatype/ABCDiatype-RegularItalic-Trial.otf') format('opentype');
+  font-weight: 400;
   font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABCDiatype';
+  src: url('/font/ABCDiatype/ABCDiatype-Medium-Trial.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABCDiatype';
+  src: url('/font/ABCDiatype/ABCDiatype-MediumItalic-Trial.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABCDiatype';
+  src: url('/font/ABCDiatype/ABCDiatype-Bold-Trial.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABCDiatype';
+  src: url('/font/ABCDiatype/ABCDiatype-BoldItalic-Trial.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABCDiatype';
+  src: url('/font/ABCDiatype/ABCDiatype-Heavy-Trial.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABCDiatype';
+  src: url('/font/ABCDiatype/ABCDiatype-Black-Trial.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
   font-display: swap;
 }
 
@@ -23,7 +88,7 @@
 :root {
   /* Base surface + text */
   --background: #F5F5F5;            /* warm cream        */
-  --foreground: #8d98b0;            /* near-black        */
+  --foreground: #2f2f2f;            /* near-black        */
 
   /* Surfaces */
   --card: #ffffff;
@@ -32,13 +97,13 @@
   --popover-foreground: #111827;
 
   /* Brand / accents */
-  --primary: #195533;               /* yellow-400        */
+  --primary: #467b25;               /* yellow-400        */
   --primary-foreground: #111827;
   --secondary: #f3f4f6;             /* gray-100          */
   --secondary-foreground: #111827;
   --muted: #e5e7eb;                 /* gray-200          */
   --muted-foreground: #6b7280;      /* gray-500          */
-  --accent: #fef3c7;                /* amber-100         */
+  --accent: #e5e7eb;                /* amber-100         */
   --accent-foreground: #92400e;     /* amber-800         */
   --destructive: #ef4444;           /* red-500           */
   --destructive-foreground: #fef2f2;
@@ -46,7 +111,7 @@
   /* Borders, inputs, focus ring */
   --border: #e5e7eb;
   --input: #e5e7eb;
-  --ring: #facc15;
+  --ring: #467b25;
 
   /* Charts */
   --chart-1: #facc15;               /* primary yellow    */
@@ -58,12 +123,12 @@
   --radius: 0.75rem;
   --sidebar: #f9fafb;
   --sidebar-foreground: #111827;
-  --sidebar-primary: #facc15;
+  --sidebar-primary: #467b25;
   --sidebar-primary-foreground: #111827;
   --sidebar-accent: #f3f4f6;
   --sidebar-accent-foreground: #111827;
   --sidebar-border: #e5e7eb;
-  --sidebar-ring: #facc15;
+  --sidebar-ring: #467b25;
 }
 
 /* ── Dark Mode ───────────────────────────────────────────────────────────── */
@@ -113,7 +178,7 @@
 }
 
 @theme inline {
-  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: 'ABCDiatype', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);

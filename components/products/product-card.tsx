@@ -42,7 +42,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
 
   return (
     <div className={cn(
-      'group relative flex flex-col bg-white rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-neutral-200/70',
+      'group relative flex flex-col bg-white rounded-4xl overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-neutral-200/70',
       className
     )}>
 

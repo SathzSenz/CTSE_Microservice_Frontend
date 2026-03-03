@@ -31,12 +31,12 @@ export function Navbar() {
   const isAdmin = user?.role === 'admin'
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background ">
       <div className="mx-auto flex h-[60px] max-w-7xl items-center justify-between px-5 sm:px-8">
 
         {/* Logo */}
-        <Link href="/" className="text-xl font-extrabold tracking-tight text-foreground shrink-0">
-          AURA<span className="text-primary">.</span>
+        <Link href="/" className="text-2xl font-extrabold tracking-tight text-foreground shrink-0">
+          Sazzy Temu
         </Link>
 
         {/* Desktop nav — centered */}
@@ -46,7 +46,7 @@ export function Navbar() {
               key={link.href}
               href={link.href}
               className={cn(
-                'text-sm font-medium transition-colors',
+                'text-lg font-medium transition-colors',
                 pathname === link.href
                   ? 'text-foreground'
                   : 'text-muted-foreground hover:text-foreground'
@@ -58,13 +58,13 @@ export function Navbar() {
         </nav>
 
         {/* Right controls */}
-        <div className="flex items-center gap-1 shrink-0">
+        <div className="flex items-center gap-4 shrink-0">
           {/* Search (desktop) */}
           <Link
             href="/products"
             className="hidden sm:flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground hover:text-foreground transition-colors"
           >
-            <Search className="h-4 w-4" />
+            <Search className="size-5" />
           </Link>
 
           {/* Cart */}
@@ -73,9 +73,9 @@ export function Navbar() {
             className="relative flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground hover:text-foreground transition-colors"
             aria-label="Open cart"
           >
-            <ShoppingBag className="h-4 w-4" />
+            <ShoppingBag className="size-5" />
             {itemCount > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+              <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-secondary">
                 {itemCount > 9 ? '9+' : itemCount}
               </span>
             )}

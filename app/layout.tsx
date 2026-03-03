@@ -7,7 +7,7 @@ import { Toaster } from '@/components/ui/sonner'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'AURA — Shop by Your Mood',
+  title: 'Sazzy Temu: Everything Mid ;)',
   description: 'A mood-driven e-commerce platform. Curated collections that match how you feel.',
   icons: {
     icon: [
