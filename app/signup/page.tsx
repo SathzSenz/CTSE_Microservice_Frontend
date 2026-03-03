@@ -1,210 +1,168 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/lib/auth-context';
-import Link from 'next/link';
-import { Mail, Lock, User, AlertCircle, Loader2 } from 'lucide-react';
-import { GoogleSignInButton } from '@/components/google-signin-button';
+import { useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useAuth } from '@/lib/auth-context'
+import { GoogleSignInButton } from '@/components/google-signin-button'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Sparkles, Mail, Lock, User, AlertCircle, ArrowRight, CheckCircle2 } from 'lucide-react'
+
+const PERKS = [
+  'Mood-personalised shopping experience',
+  'Early access to new arrivals',
+  'Exclusive member-only discounts',
+  'Order tracking & history',
+]
 
 export default function SignUpPage() {
-  const router = useRouter();
-  const { signup } = useAuth();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  });
+  const { signup } = useAuth()
+  const router = useRouter()
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const [name, setName]           = useState('')
+  const [email, setEmail]         = useState('')
+  const [password, setPassword]   = useState('')
+  const [confirm, setConfirm]     = useState('')
+  const [error, setError]         = useState('')
+  const [loading, setLoading]     = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setError('')
+    if (password.length < 6) { setError('Password must be at least 6 characters.'); return }
+    if (password !== confirm)  { setError('Passwords do not match.'); return }
 
-    if (!formData.name || !formData.email || !formData.password) {
-      setError('Please fill in all fields');
-      return;
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-
-    if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters');
-      return;
-    }
-
+    setLoading(true)
     try {
-      setLoading(true);
-      await signup(formData.name, formData.email, formData.password);
-      router.push('/dashboard');
+      await signup(name, email, password)
+      router.push('/')
     } catch (err: any) {
-      setError(err.message || 'Failed to sign up');
+      setError(err.message ?? 'Registration failed. Please try again.')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary/10 px-4">
-      <div className="w-full max-w-md">
-        {/* Logo/Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-primary mb-4">
-            <User className="w-6 h-6 text-primary-foreground" />
-          </div>
-          <h1 className="text-3xl font-bold text-foreground">Create Account</h1>
-          <p className="text-muted-foreground mt-2">Join us today to get started</p>
-        </div>
+    <div className="flex min-h-screen">
 
-        {/* Card */}
-        <div className="bg-card border border-border rounded-xl shadow-lg p-8 space-y-6">
-          {/* Error Alert */}
+      {/* Left decorative panel */}
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-primary/15 via-primary/5 to-background items-center justify-center p-12">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 h-80 w-80 rounded-full bg-primary/20 blur-[100px]" />
+        </div>
+        <div className="relative z-10 max-w-sm text-center space-y-6">
+          <Link href="/" className="inline-flex items-center gap-2 mb-8">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+              <Sparkles className="h-[18px] w-[18px]" />
+            </div>
+            <span className="text-xl font-bold tracking-tight">AURA</span>
+          </Link>
+          <h2 className="text-3xl font-bold tracking-tight leading-tight">
+            Join a <span className="text-primary">mood-first</span> shopping community.
+          </h2>
+          <p className="text-muted-foreground leading-relaxed">
+            Create your free account and let your emotions guide you to the perfect products every time.
+          </p>
+          <ul className="flex flex-col gap-3 text-sm text-left pt-4">
+            {PERKS.map(perk => (
+              <li key={perk} className="flex items-center gap-2.5">
+                <CheckCircle2 className="h-4 w-4 text-primary flex-shrink-0" />
+                <span className="text-muted-foreground">{perk}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      {/* Right form */}
+      <div className="flex flex-1 flex-col items-center justify-center px-6 py-12">
+
+        {/* Mobile logo */}
+        <Link href="/" className="flex items-center gap-2 mb-10 lg:hidden">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+            <Sparkles className="h-4 w-4" />
+          </div>
+          <span className="text-lg font-bold tracking-tight">AURA</span>
+        </Link>
+
+        <div className="w-full max-w-sm space-y-8">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">Create account</h1>
+            <p className="text-sm text-muted-foreground mt-1.5">
+              Already have one?{' '}
+              <Link href="/signin" className="text-primary hover:underline font-medium">
+                Sign in
+              </Link>
+            </p>
+          </div>
+
           {error && (
-            <div className="bg-destructive/10 border border-destructive/30 rounded-lg p-4 flex gap-3">
-              <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-destructive">{error}</p>
+            <div className="flex items-start gap-2.5 rounded-lg border border-destructive/30 bg-destructive/10 p-3.5 text-sm text-destructive">
+              <AlertCircle className="h-4 w-4 flex-shrink-0 mt-0.5" />
+              {error}
             </div>
           )}
 
-          {/* Sign Up Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Name Field */}
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
-                Full Name
-              </label>
+            <div className="space-y-2">
+              <Label htmlFor="name">Full Name</Label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  placeholder="John Doe"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="w-full pl-10 pr-4 py-2.5 bg-background border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-foreground placeholder:text-muted-foreground"
-                  disabled={loading}
-                />
+                <User className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input id="name" value={name} onChange={e => setName(e.target.value)}
+                  placeholder="Alex Thompson" className="pl-10 h-11" required autoComplete="name" />
               </div>
             </div>
 
-            {/* Email Field */}
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                Email Address
-              </label>
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="you@example.com"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full pl-10 pr-4 py-2.5 bg-background border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-foreground placeholder:text-muted-foreground"
-                  disabled={loading}
-                />
+                <Mail className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)}
+                  placeholder="you@example.com" className="pl-10 h-11" required autoComplete="email" />
               </div>
             </div>
 
-            {/* Password Field */}
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-foreground mb-2">
-                Password
-              </label>
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="••••••••"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="w-full pl-10 pr-4 py-2.5 bg-background border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-foreground placeholder:text-muted-foreground"
-                  disabled={loading}
-                />
+                <Lock className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)}
+                  placeholder="Min. 6 characters" className="pl-10 h-11" required autoComplete="new-password" />
               </div>
             </div>
 
-            {/* Confirm Password Field */}
-            <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-foreground mb-2">
-                Confirm Password
-              </label>
+            <div className="space-y-2">
+              <Label htmlFor="confirm">Confirm Password</Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  placeholder="••••••••"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  className="w-full pl-10 pr-4 py-2.5 bg-background border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-foreground placeholder:text-muted-foreground"
-                  disabled={loading}
-                />
+                <Lock className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input id="confirm" type="password" value={confirm} onChange={e => setConfirm(e.target.value)}
+                  placeholder="Repeat your password" className="pl-10 h-11" required autoComplete="new-password" />
               </div>
             </div>
 
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-primary text-primary-foreground font-medium py-2.5 rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Creating account...
-                </>
-              ) : (
-                'Create Account'
-              )}
-            </button>
+            <Button type="submit" className="w-full h-11 gap-2 font-semibold mt-2" disabled={loading}>
+              {loading ? 'Creating account…' : <><span>Create Account</span> <ArrowRight className="h-4 w-4" /></>}
+            </Button>
           </form>
 
-          {/* Divider */}
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-border"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-card text-muted-foreground">Or continue with</span>
-            </div>
+          <div className="relative flex items-center">
+            <div className="flex-1 border-t border-border" />
+            <span className="px-4 text-xs text-muted-foreground">or sign up with</span>
+            <div className="flex-1 border-t border-border" />
           </div>
 
-          {/* Google Sign In */}
           <GoogleSignInButton />
 
-          {/* Sign In Link */}
-          <p className="text-center text-sm text-muted-foreground">
-            Already have an account?{' '}
-            <Link href="/signin" className="font-medium text-primary hover:underline">
-              Sign In
-            </Link>
+          <p className="text-center text-[11px] text-muted-foreground leading-relaxed">
+            By creating an account you agree to our{' '}
+            <a href="#" className="text-primary hover:underline">Terms of Service</a> and{' '}
+            <a href="#" className="text-primary hover:underline">Privacy Policy</a>.
           </p>
         </div>
-
-        {/* Footer */}
-        <p className="text-center text-xs text-muted-foreground mt-8">
-          By signing up, you agree to our Terms of Service and Privacy Policy
-        </p>
       </div>
-    </main>
-  );
+    </div>
+  )
 }
