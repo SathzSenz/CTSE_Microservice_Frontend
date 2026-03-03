@@ -74,9 +74,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
           )}
         </div>
 
-        {/* Bottom gradient for readability */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
-
+      
         {/* Add to cart overlay */}
         <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 p-4">
           <button
@@ -101,7 +99,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
           <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
             {product.category}
           </p>
-          <h3 className="text-sm font-bold leading-tight line-clamp-2 mt-0.5 group-hover:text-primary transition-colors">
+          <h3 className="text-lg font-bold leading-tight line-clamp-2 mt-0.5 group-hover:text-primary transition-colors">
             {product.name}
           </h3>
         </div>

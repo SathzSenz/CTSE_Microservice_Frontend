@@ -75,7 +75,7 @@ function ProductsContent() {
       <CartSheet />
 
       <main className="pt-[60px] min-h-screen">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 py-14">
+        <div className="mx-auto  px-5 sm:px-8 py-14">
 
           {/* Page header */}
           <div className="mb-10">
@@ -89,7 +89,7 @@ function ProductsContent() {
 
           {/* Search bar */}
           <div className="mb-8 max-w-md">
-            <div className="flex items-center rounded-full border border-border bg-white overflow-hidden focus-within:border-foreground/30 transition-colors shadow-sm">
+            <div className="flex items-center rounded-full  bg-white overflow-hidden focus-within:border-foreground/30 transition-colors">
               <div className="pl-4 pr-2 flex-shrink-0">
                 <Search className="h-3.5 w-3.5 text-muted-foreground" />
               </div>
@@ -213,7 +213,7 @@ function ProductsContent() {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-2">
               {filtered.map(product => (
                 <ProductCard key={product.id} product={product} />
               ))}

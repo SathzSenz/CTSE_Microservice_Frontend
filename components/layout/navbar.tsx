@@ -31,8 +31,8 @@ export function Navbar() {
   const isAdmin = user?.role === 'admin'
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background ">
-      <div className="mx-auto flex h-[60px] max-w-7xl items-center justify-between px-5 sm:px-8">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/70 backdrop-blur-lg ">
+      <div className="mx-auto flex h-[60px]  items-center justify-between px-8 sm:px-24">
 
         {/* Logo */}
         <Link href="/" className="text-2xl font-extrabold tracking-tight text-foreground shrink-0">

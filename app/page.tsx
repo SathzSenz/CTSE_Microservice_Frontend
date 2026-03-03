@@ -41,24 +41,32 @@ export default function HomePage() {
       <main className="pt-[60px]">
 
         {/* ── Hero ───────────────────────────────────────────────────── */}
-        <section className="relative overflow-hidden px-5 sm:px-8 pt-20 pb-8">
-          <div className="mx-auto max-w-7xl text-center">
+        <section
+          className="relative overflow-hidden px-5 sm:px-8 pt-24 pb-16"
+          style={{
+            backgroundImage: "url('/images/4.jpg')",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className="absolute inset-0 bg-black/60" />
+          <div className="relative mx-auto max-w-7xl text-center text-white">
 
             {/* Eyebrow */}
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/70 mb-6">
               Mood-Driven Commerce
             </p>
 
             {/* Headline */}
-            <h1 className="text-[clamp(2rem,14vw,5rem)] font-extrabold leading-[1] tracking-tight text-foreground max-w-4xl mx-auto">
+            <h1 className="text-[clamp(2rem,14vw,5rem)] font-bold leading-[1] tracking-tight text-white max-w-4xl mx-auto">
               Shop The Way<br />
-              <span className="text-primary">You Feel.</span>
+              <span className="text-lime-300">You Feel.</span>
             </h1>
 
             {/* Subtitle + search */}
             <div className="mt-8 flex flex-col  items-center justify-center gap-6 max-w-3xl mx-auto">
-              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-sm">
-                AURA curates products that match your current mood. Tell us how you feel.
+              <p className="text-base font-medium sm:text-lg text-white/75 leading-relaxed max-w-sm">
+                Sazzy Temu curates products that match your current mood. Tell us how you feel.
               </p>
 
               
@@ -74,7 +82,7 @@ export default function HomePage() {
               </Link>
               <Link
                 href="#moods"
-                className="inline-flex items-center gap-2 rounded-full border border-border bg-white px-7 py-3 text-sm font-bold text-foreground hover:border-foreground/30 transition-colors"
+                className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/5 px-7 py-3 text-sm font-bold text-white hover:bg-white/10 hover:border-white transition-colors"
               >
                 Browse by Mood
               </Link>
