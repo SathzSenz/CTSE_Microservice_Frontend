@@ -203,7 +203,6 @@ export const DUMMY_PRODUCTS: Product[] = [
     stock: 90,
     rating: 4.6,
     reviewCount: 214,
-    reviewCount: 214,
     image: 'https://picsum.photos/seed/aura-p8/400/500',
   },
   {
