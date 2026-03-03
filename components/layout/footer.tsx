@@ -74,28 +74,29 @@ export function Footer() {
 
           {/* Link columns */}
           {Object.entries(FOOTER_LINKS).map(([section, links]) => (
-            <div key={section}>
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 mb-4">
-                {section}
-              </p>
-              <ul className="flex flex-col gap-2.5">
-                {links.map(link => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-white/60 hover:text-white transition-colors"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+              <div key={section}>
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 mb-4">
+                  {section}
+                </p>
+                <ul className="flex flex-col gap-2.5">
+                  {links.map((link, index) => (
+                      <li key={`${link.href}-${index}`}>
+                        <Link
+                            href={link.href}
+                            className="text-sm text-white/60 hover:text-white transition-colors"
+                        >
+                          {link.label}
+                        </Link>
+                      </li>
+                  ))}
+                </ul>
+              </div>
           ))}
         </div>
 
         {/* Copyright */}
-        <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-3 pt-8 border-t border-white/10 text-xs text-white/30">
+        <div
+            className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-3 pt-8 border-t border-white/10 text-xs text-white/30">
           <p>© {new Date().getFullYear()} Sazzy Temu. All rights reserved.</p>
           <p>SE4010 · SLIIT · Mood-Driven E-Commerce Platform</p>
         </div>
