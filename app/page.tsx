@@ -58,9 +58,9 @@ export default function HomePage() {
             </p>
 
             {/* Headline */}
-            <h1 className="text-[clamp(2rem,14vw,5rem)] font-bold leading-[1] tracking-tight text-white max-w-4xl mx-auto">
+            <h1 className="text-[clamp(2rem,15vw,5rem)] font-bold leading-[1.1] tracking-tight text-white max-w-4xl mx-auto">
               Shop The Way<br />
-              <span className="text-lime-300">You Feel.</span>
+              <span className="text-gray-100 font-normal">You Feel.</span>
             </h1>
 
             {/* Subtitle + search */}
@@ -135,7 +135,7 @@ export default function HomePage() {
         </section> */}
 
         {/* ── Featured Products ───────────────────────────────────────── */}
-        <section className="mx-auto max-w-7xl px-5 sm:px-8 py-24">
+        <section className="mx-auto max-w-7xl px-5 sm:px-8 pt-24">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-3">
