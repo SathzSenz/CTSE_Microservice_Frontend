@@ -38,8 +38,8 @@ export function Footer() {
               Find Your Feeling
             </p>
             <h2 className="text-[clamp(2.5rem,7vw,5.5rem)] font-extrabold leading-[0.9] tracking-tight text-white">
-              SHOP BY YOUR<br />
-              <span className="text-primary">MOOD.</span>
+              Shop by Your<br />
+              <span className="text-primary">Mood.</span>
             </h2>
           </div>
 
@@ -65,7 +65,7 @@ export function Footer() {
           {/* Brand */}
           <div>
             <p className="text-lg font-extrabold tracking-tight mb-4">
-            Sazzy Temu<span className="text-primary">.</span>
+            Sazzy Temu
             </p>
             <p className="text-sm text-white/40 leading-relaxed max-w-[180px]">
               A mood-driven shopping experience curated for how you feel.
