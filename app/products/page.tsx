@@ -1,12 +1,12 @@
 'use client'
 
-import { Suspense, useState, useMemo } from 'react'
+import { Suspense, useState, useMemo, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Navbar } from '@/components/layout/navbar'
 import { Footer } from '@/components/layout/footer'
 import { CartSheet } from '@/components/cart/cart-sheet'
 import { ProductCard } from '@/components/products/product-card'
-import { DUMMY_PRODUCTS, MOOD_CATEGORIES, type Mood } from '@/lib/dummy-data'
+import { DUMMY_PRODUCTS, MOOD_CATEGORIES, type Mood, type Product } from '@/lib/dummy-data'
 import { getMoodIcon } from '@/lib/icons'
 import { X, Search, SearchX, SlidersHorizontal } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -19,7 +19,13 @@ const SORT_OPTIONS = [
   { value: 'newest',     label: 'Newest' },
 ]
 
-const CATEGORIES = ['All', ...Array.from(new Set(DUMMY_PRODUCTS.map(p => p.category)))]
+type ApiProduct = {
+  id: string
+  name: string
+  price: number
+  mood: Mood
+  stock: number
+}
 
 function ProductsContent() {
   const searchParams    = useSearchParams()
@@ -31,9 +37,67 @@ function ProductsContent() {
   const [sortBy,         setSortBy]         = useState('featured')
   const [searchQuery,    setSearchQuery]    = useState(initialSearch)
   const [searchInput,    setSearchInput]    = useState(initialSearch)
+  const [products,       setProducts]       = useState<Product[]>([])
+  const [loading,        setLoading]        = useState(true)
+  const [error,          setError]          = useState<string | null>(null)
+
+  const API_URL = process.env.NEXT_PUBLIC_API_URL
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function loadProducts() {
+      try {
+        const res = await fetch(`${API_URL}/products`)
+        if (!res.ok) {
+          throw new Error('Failed to load products')
+        }
+        const data: ApiProduct[] = await res.json()
+
+        if (cancelled) return
+
+        const mapped: Product[] = data.map(p => ({
+          id: p.id,
+          name: p.name,
+          description: `${p.name} to match your ${p.mood} mood.`,
+          price: p.price,
+          mood: p.mood,
+          category: 'Mood Products',
+          stock: p.stock,
+          rating: 4.7,
+          reviewCount: 128,
+          image: `https://picsum.photos/seed/aura-${p.id}/400/500`,
+        }))
+
+        setProducts(mapped)
+        setError(null)
+      } catch (err) {
+        console.error(err)
+        setError('Could not load products. Please try again later.')
+        setProducts([])
+      } finally {
+        if (!cancelled) setLoading(false)
+      }
+    }
+
+    if (API_URL) {
+      loadProducts()
+    } else {
+      // Fallback to dummy products if API URL is not configured
+      setProducts(DUMMY_PRODUCTS)
+      setLoading(false)
+    }
+
+    return () => { cancelled = true }
+  }, [API_URL])
+
+  const CATEGORIES = useMemo(
+    () => ['All', ...Array.from(new Set(products.map(p => p.category)))],
+    [products],
+  )
 
   const filtered = useMemo(() => {
-    let list = [...DUMMY_PRODUCTS]
+    let list = [...products]
     if (activeMood)               list = list.filter(p => p.mood === activeMood)
     if (activeCategory !== 'All') list = list.filter(p => p.category === activeCategory)
     if (searchQuery) {
@@ -51,7 +115,7 @@ function ProductsContent() {
       case 'rating':     return [...list].sort((a, b) => b.rating - a.rating)
       default:           return list
     }
-  }, [activeMood, activeCategory, sortBy, searchQuery])
+  }, [products, activeMood, activeCategory, sortBy, searchQuery])
 
   function clearFilters() {
     setActiveMood(null)
@@ -196,14 +260,23 @@ function ProductsContent() {
           </div>
 
           {/* Product grid */}
-          {filtered.length === 0 ? (
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-24 gap-4 text-center">
+              <div className="h-8 w-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+              <p className="text-sm text-muted-foreground">Loading products…</p>
+            </div>
+          ) : filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-24 gap-4 text-center">
               <div className="flex h-16 w-16 items-center justify-center rounded-full bg-neutral-100 border border-neutral-200">
                 <SearchX className="h-7 w-7 text-neutral-400" />
               </div>
               <div>
-                <p className="font-bold text-lg">No products found</p>
-                <p className="text-sm text-muted-foreground mt-1">Try adjusting your filters or search term.</p>
+                <p className="font-bold text-lg">
+                  {error ? 'Unable to load products' : 'No products found'}
+                </p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {error ?? 'Try adjusting your filters or search term.'}
+                </p>
               </div>
               <button
                 onClick={clearFilters}
