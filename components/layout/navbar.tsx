@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { useAuth } from '@/lib/auth-context'
 import { useCart } from '@/lib/cart-context'
@@ -25,6 +25,8 @@ const NAV_LINKS = [
 
 export function Navbar() {
   const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const moodParam = searchParams.get('mood')
   const { user, isAuthenticated, logout } = useAuth()
   const { itemCount, openCart } = useCart()
   const [mobileOpen, setMobileOpen] = useState(false)
