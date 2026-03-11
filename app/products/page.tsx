@@ -19,8 +19,8 @@ const SORT_OPTIONS = [
 
 function ProductsContent() {
     const searchParams = useSearchParams()
-    const initialMood = searchParams.get('mood') as Mood | null
-    const initialSearch = searchParams.get('search') ?? ''
+    const initialMood: Mood | null = (searchParams.get('mood') as Mood) ?? null
+    const initialSearch: string = searchParams.get('search') ?? ''
 
     const [products, setProducts] = useState<Product[]>([])
     const [loading, setLoading] = useState(true)
@@ -31,7 +31,11 @@ function ProductsContent() {
     const [searchQuery, setSearchQuery] = useState(initialSearch)
     const [searchInput, setSearchInput] = useState(initialSearch)
 
-    // 🔥 Fetch products from backend
+    useEffect(() => {
+        setActiveMood(initialMood)
+    }, [initialMood])
+
+    // Fetch products from backend
     useEffect(() => {
         async function fetchProducts() {
             try {
@@ -45,6 +49,7 @@ function ProductsContent() {
                 }))
 
                 setProducts(enriched)
+
             } catch (err) {
                 console.error('Error fetching products:', err)
             } finally {
@@ -53,6 +58,7 @@ function ProductsContent() {
         }
 
         fetchProducts()
+
     }, [])
 
     const categories = useMemo(() => {
