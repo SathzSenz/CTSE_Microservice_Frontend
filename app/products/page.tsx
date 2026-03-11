@@ -9,6 +9,7 @@ import { ProductCard } from '@/components/products/product-card'
 import type { Product, Mood } from '@/lib/dummy-data'
 import { Search, SearchX, SlidersHorizontal } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { MoodFall } from '@/components/ui/mood-fall'
 
 const SORT_OPTIONS = [
     { value: 'featured', label: 'Featured' },
@@ -30,6 +31,7 @@ function ProductsContent() {
     const [sortBy, setSortBy] = useState('featured')
     const [searchQuery, setSearchQuery] = useState(initialSearch)
     const [searchInput, setSearchInput] = useState(initialSearch)
+    
 
     useEffect(() => {
         setActiveMood(initialMood)
@@ -101,6 +103,7 @@ function ProductsContent() {
         <>
             <Navbar />
             <CartSheet />
+            <MoodFall mood={activeMood} />
 
             <main className="pt-[60px] min-h-screen">
                 <div className="mx-auto px-5 sm:px-8 py-14">

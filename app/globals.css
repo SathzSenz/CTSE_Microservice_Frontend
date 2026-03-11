@@ -234,3 +234,19 @@
     scroll-behavior: smooth;
   }
 }
+
+@keyframes fall {
+  0% {
+    transform: translateY(-50px);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(110vh);
+    opacity: 0;
+  }
+}
+
+.animate-fall {
+  animation: fall linear forwards;
+}

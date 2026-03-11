@@ -17,10 +17,13 @@ import {
 import { MOOD_CATEGORIES } from '@/lib/dummy-data'
 import { getMoodIcon } from '@/lib/icons'
 import { cn } from '@/lib/utils'
+import { useRouter } from 'next/navigation'
+import { updateMood } from '@/lib/api/update-mood'
 
 export default function DashboardPage() {
-  const { user, logout } = useAuth()
+  const { user, logout, token } = useAuth()
   const { itemCount } = useCart()
+  const router = useRouter();
 
   const mood = MOOD_CATEGORIES.find(m => m.id === 'calm')
 
@@ -85,15 +88,27 @@ export default function DashboardPage() {
             <div className="flex flex-wrap gap-2 mt-5">
               {MOOD_CATEGORIES.map(m => {
                 const MoodIcon = getMoodIcon(m.id)
+
+                const handleMoodClick = async () => {
+                  try {
+                    if (token) {
+                      await updateMood(m.id, token)
+                    }
+                  } catch (err) {
+                    console.error("Failed to store mood", err)
+                  }
+                  router.push(`/products?mood=${m.id}`)
+                }
+
                 return (
-                  <Link
+                  <button
                     key={m.id}
-                    href={`/products?mood=${m.id}`}
+                    onClick={handleMoodClick}
                     className="flex items-center gap-1.5 rounded-full border border-border bg-white px-3 py-1.5 text-xs font-medium transition-all hover:border-primary/30 hover:bg-primary/8 hover:text-primary shadow-sm"
                   >
                     <MoodIcon className="h-3 w-3" />
                     {m.label}
-                  </Link>
+                  </button>
                 )
               })}
             </div>
