@@ -29,7 +29,7 @@ export default function DashboardPage() {
 
   const QUICK_LINKS = [
     { icon: ShoppingBag, label: 'My Cart',   sub: `${itemCount} item${itemCount !== 1 ? 's' : ''}`, href: '/cart',     color: 'bg-amber-100 text-amber-700' },
-    { icon: Package,     label: 'My Orders', sub: 'View history',                                    href: '/cart',     color: 'bg-emerald-100 text-emerald-700' },
+    { icon: Package,     label: 'My Orders', sub: 'View history',                                    href: '/orders',   color: 'bg-emerald-100 text-emerald-700' },
     { icon: Heart,       label: 'Wishlist',  sub: 'Saved items',                                     href: '/products', color: 'bg-red-100 text-red-600' },
     { icon: Settings,    label: 'Settings',  sub: 'Account prefs',                                   href: '#',         color: 'bg-blue-100 text-blue-700' },
   ]

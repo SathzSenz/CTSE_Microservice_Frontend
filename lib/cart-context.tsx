@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
 import { useAuth } from './auth-context'
+import { getProductImageById } from './product-images'
 import { toast } from 'sonner'
 
 export interface CartItem {
@@ -12,6 +13,7 @@ export interface CartItem {
   quantity: number
   category: string
   mood: string
+  image: string
 }
 
 interface CartContextType {
@@ -52,15 +54,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
         const data = await res.json()
         if (cancelled || !data?.items) return
 
-        const serverItems = (data.items as any[]).map(item => ({
-          id: item.id as string,
-          productId: item.product_id as string,
-          name: item.name as string,
-          price: item.price as number,
-          quantity: item.quantity as number,
-          category: 'Mood Products',
-          mood: (item.mood_tag as string) || 'mood',
-        }))
+        const serverItems = (data.items as any[]).map(item => {
+          const productId = item.product_id as string
+          return {
+            id: item.id as string,
+            productId,
+            name: item.name as string,
+            price: item.price as number,
+            quantity: item.quantity as number,
+            category: 'Mood Products',
+            mood: (item.mood_tag as string) || 'mood',
+            image: (item.image_url as string) || getProductImageById(productId),
+          }
+        })
         setItems(serverItems)
       } catch {
         // fail silently; cart UI will just appear empty
@@ -95,6 +101,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
           price: product.price,
           quantity: 1,
           mood_tag: product.mood,
+          image_url: product.image,
         }),
       })
 
@@ -116,6 +123,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
           quantity: serverItem.quantity,
           category: product.category,
           mood: serverItem.mood_tag ?? product.mood,
+          image: serverItem.image_url ?? product.image ?? getProductImageById(serverItem.product_id),
         }
         if (idx >= 0) {
           next[idx] = mapped
