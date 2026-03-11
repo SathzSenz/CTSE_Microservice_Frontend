@@ -31,6 +31,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
       price: product.price,
       category: product.category,
       mood: product.mood,
+      image: product.image,
     })
     await new Promise(r => setTimeout(r, 600))
     setAdding(false)

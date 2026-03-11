@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useCart } from '@/lib/cart-context'
@@ -14,7 +15,6 @@ import {
   ShoppingBag, Minus, Plus, Trash2, ArrowRight,
   Package, Lock, ChevronRight
 } from 'lucide-react'
-import { getCategoryIcon } from '@/lib/icons'
 import { toast } from 'sonner'
 
 export default function CartPage() {
@@ -41,7 +41,7 @@ export default function CartPage() {
         toast.success('Order placed successfully!', {
           description: 'Your items are being processed.',
         })
-        router.push('/dashboard')
+        router.push('/orders')
       } else {
         const data = await res.json().catch(() => ({}))
         toast.error(data.error ?? 'Checkout failed. Please try again.')
@@ -104,19 +104,26 @@ export default function CartPage() {
                 </div>
 
                 <ul className="divide-y divide-border">
-                  {items.map(item => {
-                    const ItemIcon = getCategoryIcon(item.category)
-                    return (
+                  {items.map(item => (
                     <li key={item.id} className="flex gap-5 p-6">
-                      <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-xl bg-neutral-100 border border-neutral-200">
-                        <ItemIcon className="h-8 w-8 text-neutral-500" />
+                      {/* Product image */}
+                      <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-neutral-100 border border-neutral-200">
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          fill
+                          sizes="80px"
+                          className="object-cover"
+                        />
                       </div>
 
                       {/* Details */}
                       <div className="flex flex-1 flex-col gap-3 min-w-0">
                         <div>
-                          <p className="font-semibold leading-tight">{item.name}</p>
-                          <p className="text-xs text-muted-foreground capitalize mt-0.5">{item.mood} mood</p>
+                          <p className="font-semibold leading-tight line-clamp-2">{item.name}</p>
+                          <p className="text-xs text-muted-foreground capitalize mt-0.5">
+                            {item.mood} mood &middot; {item.category}
+                          </p>
                         </div>
 
                         <div className="flex items-center justify-between flex-wrap gap-3">
@@ -149,8 +156,7 @@ export default function CartPage() {
                         </div>
                       </div>
                     </li>
-                    )
-                  })}
+                  ))}
                 </ul>
 
                 <div className="px-6 py-4 border-t border-border">
