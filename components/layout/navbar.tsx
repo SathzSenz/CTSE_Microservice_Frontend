@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import {
-  ShoppingBag, User, LogOut, Menu, LayoutDashboard, ShieldCheck, Search, X,
+  ShoppingBag, User, LogOut, Menu, LayoutDashboard, ShieldCheck, Search, X, Package,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -82,6 +82,22 @@ export function Navbar() {
               </span>
             )}
           </button>
+
+          {/* Orders (desktop) */}
+          {isAuthenticated && (
+            <Link
+              href="/orders"
+              className={cn(
+                'hidden sm:flex h-9 w-9 items-center justify-center rounded-full transition-colors',
+                pathname === '/orders'
+                  ? 'text-foreground'
+                  : 'text-muted-foreground hover:text-foreground'
+              )}
+              aria-label="My orders"
+            >
+              <Package className="size-5" />
+            </Link>
+          )}
 
           {/* Auth — desktop */}
           {isAuthenticated ? (
@@ -162,6 +178,10 @@ export function Navbar() {
                     <Link href="/dashboard" onClick={() => setMobileOpen(false)}
                       className="flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg">
                       <User className="h-4 w-4" /> My Profile
+                    </Link>
+                    <Link href="/orders" onClick={() => setMobileOpen(false)}
+                      className="flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg">
+                      <Package className="h-4 w-4" /> My Orders
                     </Link>
                     {isAdmin && (
                       <Link href="/admin" onClick={() => setMobileOpen(false)}

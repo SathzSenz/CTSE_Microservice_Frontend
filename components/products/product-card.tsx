@@ -1,10 +1,11 @@
 'use client'
 
+import Link from 'next/link'
 import { useState } from 'react'
 import Image from 'next/image'
 import { useCart } from '@/lib/cart-context'
 import { type Product } from '@/lib/dummy-data'
-import { ShoppingBag, Star } from 'lucide-react'
+import { ShoppingBag, Star, Eye } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const BADGE_STYLES: Record<string, string> = {
@@ -19,37 +20,45 @@ interface ProductCardProps {
   className?: string
 }
 
-export function ProductCard({ product, className }: ProductCardProps) {
+export function ProductCard({ product, className }: Readonly<ProductCardProps>) {
   const { addToCart } = useCart()
   const [adding, setAdding] = useState(false)
 
   async function handleAdd() {
+    if (product.stock === 0) return
     setAdding(true)
-    addToCart({
-      productId: product.id,
-      name: product.name,
-      price: product.price,
-      category: product.category,
-      mood: product.mood,
-      image: product.image,
-    })
-    await new Promise(r => setTimeout(r, 600))
-    setAdding(false)
+    try {
+      await addToCart({
+        productId: product.id,
+        name: product.name,
+        price: product.price,
+        category: product.category,
+        mood: product.mood,
+        image: product.image,
+      })
+    } catch (err) {
+      console.error(err)
+    } finally {
+      await new Promise((r) => setTimeout(r, 300))
+      setAdding(false)
+    }
   }
 
   const discount = product.originalPrice
     ? Math.round((1 - product.price / product.originalPrice) * 100)
     : 0
 
-  return (
-    <div className={cn(
-      'group relative flex flex-col bg-white rounded-4xl overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-neutral-200/70',
-      className
-    )}>
+  const addButtonText = product.stock === 0 ? 'Out of Stock' : adding ? 'Adding...' : 'Add to Cart'
 
+  return (
+    <div
+      className={cn(
+        'group relative flex flex-col bg-white rounded-4xl overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-neutral-200/70',
+        className
+      )}
+    >
       {/* Visual area — portrait */}
       <div className="relative aspect-[3/4] overflow-hidden bg-neutral-100">
-        {/* Product image */}
         <Image
           src={product.image}
           alt={product.name}
@@ -61,13 +70,16 @@ export function ProductCard({ product, className }: ProductCardProps) {
         {/* Top badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
           {product.badge && (
-            <span className={cn(
-              'inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide',
-              BADGE_STYLES[product.badge]
-            )}>
+            <span
+              className={cn(
+                'inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide',
+                BADGE_STYLES[product.badge]
+              )}
+            >
               {product.badge}
             </span>
           )}
+
           {discount > 0 && (
             <span className="inline-flex items-center rounded-full border border-red-200 bg-red-100 px-2.5 py-0.5 text-[10px] font-bold uppercase text-red-800">
               -{discount}%
@@ -75,7 +87,6 @@ export function ProductCard({ product, className }: ProductCardProps) {
           )}
         </div>
 
-      
         {/* Add to cart overlay */}
         <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 p-4">
           <button
@@ -87,9 +98,10 @@ export function ProductCard({ product, className }: ProductCardProps) {
             )}
             onClick={handleAdd}
             disabled={adding || product.stock === 0}
+            aria-label={addButtonText}
           >
             <ShoppingBag className="h-3.5 w-3.5" />
-            {product.stock === 0 ? 'Out of Stock' : adding ? 'Adding...' : 'Add to Cart'}
+            {addButtonText}
           </button>
         </div>
       </div>
@@ -110,7 +122,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
           <div className="flex items-center gap-0.5">
             {Array.from({ length: 5 }).map((_, i) => (
               <Star
-                key={i}
+                key={`${product.id}-star-${i}`}
                 className={cn(
                   'h-2.5 w-2.5',
                   i < Math.floor(product.rating)
@@ -139,7 +151,19 @@ export function ProductCard({ product, className }: ProductCardProps) {
             <span className="text-[10px] font-semibold text-orange-600">{product.stock} left</span>
           )}
         </div>
+
+        {/* View product button */}
+        <div className="pt-3">
+          <Link
+            href={`/products/${product.id}`}
+            className="w-full inline-flex items-center justify-center gap-2 py-2 text-sm font-semibold rounded-full border border-border hover:bg-neutral-50"
+          >
+            <Eye className="h-4 w-4" />
+            View Product
+          </Link>
+        </div>
       </div>
     </div>
   )
 }
+
