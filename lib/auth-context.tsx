@@ -8,6 +8,7 @@ export interface User {
   email: string;
   role?: 'user' | 'admin';
   provider?: 'local' | 'google';
+  tier?: 'bronze' | 'silver' | 'gold' | 'platinum';
 }
 
 interface AuthContextType {

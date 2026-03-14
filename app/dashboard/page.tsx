@@ -34,6 +34,13 @@ export default function DashboardPage() {
     { icon: Settings,    label: 'Settings',  sub: 'Account prefs',                                   href: '#',         color: 'bg-blue-100 text-blue-700' },
   ]
 
+  const TIER_STYLES: Record<string, string> = {
+    bronze: "bg-amber-100 text-amber-700 border-amber-300",
+    silver: "bg-gray-100 text-gray-700 border-gray-300",
+    gold: "bg-yellow-100 text-yellow-700 border-yellow-300",
+    platinum: "bg-purple-100 text-purple-700 border-purple-300",
+  };
+
   return (
     <ProtectedRoute>
       <Navbar />
@@ -51,6 +58,17 @@ export default function DashboardPage() {
             <div className="flex-1">
               <div className="flex flex-wrap items-center gap-2">
                 <h1 className="text-2xl font-bold tracking-tight">{user?.name}</h1>
+                {user?.tier && (
+                  <Badge
+                    className={cn(
+                      "gap-1 text-xs capitalize border",
+                      TIER_STYLES[user.tier]
+                    )}
+                  >
+                    <Shield className="h-3 w-3" />
+                    {user.tier}
+                  </Badge>
+                )}
                 {user?.role === 'admin' && (
                   <Badge variant="secondary" className="gap-1 text-xs">
                     <Shield className="h-3 w-3" /> Admin
