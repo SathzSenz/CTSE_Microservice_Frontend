@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { MoodModal } from '@/components/mood-modal';
 
 export interface User {
   _id?: string;
@@ -28,12 +29,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showMoodModal, setShowMoodModal] = useState(false);
 
   // Initialize from localStorage on mount
   useEffect(() => {
     const savedToken = localStorage.getItem('authToken');
     const savedUser = localStorage.getItem('user');
-    
+
     if (savedToken && savedUser) {
       setToken(savedToken);
       setUser(JSON.parse(savedUser));
@@ -41,7 +43,50 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setLoading(false);
   }, []);
 
+  useEffect(() => {
+    if (!user || !token) return;
+
+    const scheduleRandomMoodCheck = () => {
+      const minMinutes = 5;
+      const maxMinutes = 15;
+      const randomMinutes = Math.random() * (maxMinutes - minMinutes) + minMinutes;
+      const randomMs = randomMinutes * 60 * 1000;
+
+      return setTimeout(() => {
+        setShowMoodModal(true);
+        scheduleRandomMoodCheck();
+      }, randomMs);
+    };
+
+    const timeoutId = scheduleRandomMoodCheck();
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [user, token]);
+
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+  const submitMood = async (mood: string) => {
+    if (!user || !token) return;
+
+    try {
+      const response = await fetch(`${API_URL}/mood/update`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ userId: user._id, mood }),
+      });
+
+      if (!response.ok) {
+        console.error('Failed to update mood');
+      }
+    } catch (error) {
+      console.error('Error submitting mood:', error);
+    }
+  };
 
   const signup = async (name: string, email: string, password: string) => {
     try {
@@ -63,6 +108,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(data.user);
       localStorage.setItem('authToken', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
+
+      setTimeout(() => setShowMoodModal(true), 500);
     } catch (error) {
       throw error;
     }
@@ -88,6 +135,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(data.user);
       localStorage.setItem('authToken', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
+
+      setTimeout(() => setShowMoodModal(true), 500);
     } catch (error) {
       throw error;
     }
@@ -113,6 +162,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(data.user);
       localStorage.setItem('authToken', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
+
+      setTimeout(() => setShowMoodModal(true), 500);
     } catch (error) {
       throw error;
     }
@@ -139,6 +190,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }}
     >
       {children}
+      <MoodModal
+        open={showMoodModal}
+        onClose={() => setShowMoodModal(false)}
+        onMoodSelect={submitMood}
+      />
     </AuthContext.Provider>
   );
 }
