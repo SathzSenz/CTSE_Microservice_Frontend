@@ -124,11 +124,19 @@ export function Navbar() {
                   </Link>
                 </DropdownMenuItem>
                 {isAdmin && (
-                  <DropdownMenuItem asChild>
-                    <Link href="/admin" className="gap-2 cursor-pointer">
-                      <LayoutDashboard className="h-4 w-4" /> Admin Panel
-                    </Link>
-                  </DropdownMenuItem>
+                    <>
+                      <DropdownMenuItem asChild>
+                        <Link href="/admin" className="gap-2 cursor-pointer">
+                          <LayoutDashboard className="h-4 w-4" /> Admin Dashboard
+                        </Link>
+                      </DropdownMenuItem>
+
+                      <DropdownMenuItem asChild>
+                        <Link href="/admin/stocks" className="gap-2 cursor-pointer">
+                          <Package className="h-4 w-4" /> Stock Management
+                        </Link>
+                      </DropdownMenuItem>
+                    </>
                 )}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={logout} className="gap-2 text-destructive focus:text-destructive cursor-pointer">
@@ -188,6 +196,12 @@ export function Navbar() {
                         className="flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg">
                         <LayoutDashboard className="h-4 w-4" /> Admin Panel
                       </Link>
+                    )}
+                    {isAdmin && (
+                        <Link href="/admin/stocks" onClick={() => setMobileOpen(false)}
+                              className="flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg">
+                          <Package className="h-4 w-4" /> Stock Management
+                        </Link>
                     )}
                     <button onClick={() => { logout(); setMobileOpen(false) }}
                       className="flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-destructive hover:bg-secondary rounded-lg">
