@@ -120,16 +120,16 @@ export function ProductCard({ product, className }: Readonly<ProductCardProps>) 
         {/* Rating */}
         <div className="flex items-center gap-1.5">
           <div className="flex items-center gap-0.5">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Star
-                key={`${product.id}-star-${i}`}
-                className={cn(
-                  'h-2.5 w-2.5',
-                  i < Math.floor(product.rating)
-                    ? 'fill-amber-400 text-amber-400'
-                    : 'fill-neutral-200 text-neutral-200'
-                )}
-              />
+            {Array.from({length: 5}).map((_, i) => (
+                <Star
+                    key={`${product.id}-star-${i}`}
+                    className={cn(
+                        'h-2.5 w-2.5',
+                        i < Math.floor(product.rating)
+                            ? 'fill-amber-400 text-amber-400'
+                            : 'fill-neutral-200 text-neutral-200'
+                    )}
+                />
             ))}
           </div>
           <span className="text-[10px] text-muted-foreground">
@@ -142,28 +142,37 @@ export function ProductCard({ product, className }: Readonly<ProductCardProps>) 
           <div className="flex items-baseline gap-1.5">
             <span className="text-base font-extrabold">${product.price.toFixed(2)}</span>
             {product.originalPrice && (
-              <span className="text-xs text-muted-foreground line-through">
-                ${product.originalPrice.toFixed(2)}
-              </span>
+                <span className="text-xs text-muted-foreground line-through">
+        ${product.originalPrice.toFixed(2)}
+      </span>
             )}
           </div>
-          {product.stock > 0 && product.stock <= 15 && (
-            <span className="text-[10px] font-semibold text-orange-600">{product.stock} left</span>
+
+          {/* Stock status */}
+          {product.stock === 0 ? (
+              <span className="text-[10px] font-semibold text-red-600">Out of stock</span>
+          ) : product.stock <= 15 ? (
+              <span className="text-[10px] font-semibold text-orange-600">
+      {product.stock} left
+    </span>
+          ) : (
+              <span className="text-[10px] text-emerald-600 font-semibold">In stock</span>
           )}
         </div>
+      </div>
 
-        {/* View product button */}
-        <div className="pt-3">
-          <Link
+      {/* View product button */}
+      <div className="pt-3">
+        <Link
             href={`/products/${product.id}`}
             className="w-full inline-flex items-center justify-center gap-2 py-2 text-sm font-semibold rounded-full border border-border hover:bg-neutral-50"
-          >
-            <Eye className="h-4 w-4" />
-            View Product
-          </Link>
-        </div>
+        >
+          <Eye className="h-4 w-4"/>
+          View Product
+        </Link>
       </div>
     </div>
-  )
+
+)
 }
 

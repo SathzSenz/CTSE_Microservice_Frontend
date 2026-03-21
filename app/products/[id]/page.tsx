@@ -19,7 +19,7 @@ export default function ProductDetailsPage() {
   useEffect(() => {
     async function fetchProduct() {
       try {
-        const res = await fetch(`http://localhost:8080/products/${params.id}`)
+        const res = await fetch(`http://localhost:8080/api/products/${params.id}`)
         if (!res.ok) throw new Error('Failed to fetch')
         const data = await res.json()
         setProduct(data)
@@ -81,7 +81,17 @@ export default function ProductDetailsPage() {
                 </span>
               </div>
 
-              <p className="text-2xl font-bold mb-4">${product.price.toFixed(2)}</p>
+              <p className="text-2xl font-bold mb-2">${product.price.toFixed(2)}</p>
+
+              <p className="text-sm mb-4">
+                {product.stock === 0 && <span className="text-red-600 font-medium">Out of stock</span>}
+                {product.stock > 0 && product.stock <= 10 && (
+                  <span className="text-orange-600 font-medium">Only {product.stock} left</span>
+                )}
+                {product.stock > 10 && (
+                  <span className="text-emerald-600 font-medium">In stock</span>
+                )}
+              </p>
 
               <div className="mb-6">
                 <span className="inline-block px-3 py-1 rounded-full text-xs bg-neutral-100">
@@ -103,10 +113,11 @@ export default function ProductDetailsPage() {
                   mood: product.mood,
                   image: product.image,
                 })}
-                className="w-full flex items-center justify-center gap-2 bg-foreground text-background py-3 rounded-full font-medium hover:opacity-90"
+                disabled={product.stock === 0}
+                className="w-full flex items-center justify-center gap-2 bg-foreground text-background py-3 rounded-full font-medium hover:opacity-90 disabled:bg-neutral-300 disabled:text-neutral-500 disabled:cursor-not-allowed"
               >
                 <ShoppingBag className="h-5 w-5" />
-                Add to Cart
+                {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
               </button>
             </div>
           </div>
@@ -117,4 +128,3 @@ export default function ProductDetailsPage() {
     </>
   )
 }
-

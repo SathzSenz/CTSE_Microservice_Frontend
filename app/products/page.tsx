@@ -41,13 +41,21 @@ function ProductsContent() {
     useEffect(() => {
         async function fetchProducts() {
             try {
-                const res = await fetch('http://localhost:8080/products')
+                const res = await fetch('http://localhost:8080/api/products')
+
+                if (!res.ok) {
+                    const text = await res.text()
+                    console.error('Backend error:', text)
+                    throw new Error('Failed to fetch products')
+                }
+
                 const data = await res.json()
 
                 const enriched: Product[] = data.map((p: any) => ({
                     ...p,
                     mood: p.mood as Mood,
                     reviewCount: 0,
+                    stock: typeof p.stock === 'number' ? p.stock : 0,
                 }))
 
                 setProducts(enriched)
