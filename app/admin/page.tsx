@@ -1,4 +1,3 @@
-    sub: '3 low stock',
 'use client'
 
 import { useState } from 'react'
@@ -36,7 +35,7 @@ const STATUS_STYLES: Record<Order['status'], string> = {
 
 const STATUSES: Order['status'][] = ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled']
 
-const lowStockCount = countLowStockProducts(10)
+const lowStockCount = DUMMY_PRODUCTS.filter(p => p.stock < 10).length
 
 const STATS = [
   {
