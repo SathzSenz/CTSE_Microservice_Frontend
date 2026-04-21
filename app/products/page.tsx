@@ -41,7 +41,7 @@ function ProductsContent() {
     useEffect(() => {
         async function fetchProducts() {
             try {
-                const res = await fetch('http://ctse-product-alb-1026051491.eu-north-1.elb.amazonaws.com:8080/api/api/products')
+                const res = await fetch('http://ctse-product-alb-1026051491.eu-north-1.elb.amazonaws.com:8080/api/products')
 
                 if (!res.ok) {
                     const text = await res.text()
