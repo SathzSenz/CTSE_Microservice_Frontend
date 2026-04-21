@@ -8,16 +8,16 @@ import { CartSheet } from '@/components/cart/cart-sheet'
 import { ProductCard } from '@/components/products/product-card'
 import type { Product, Mood } from '@/lib/dummy-data'
 import { ArrowRight } from 'lucide-react'
+import { fetchProducts as fetchProductsApi } from '@/lib/product-api'
 
 export default function HomePage() {
   const [featured, setFeatured] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    async function fetchProducts() {
+    async function fetchFeaturedProducts() {
       try {
-        const res = await fetch('http://ctse-product-alb-1026051491.eu-north-1.elb.amazonaws.com:8080/api/products')
-        const data = await res.json()
+        const data = await fetchProductsApi()
 
         const enriched: Product[] = data.map((p: any) => ({
           ...p,
@@ -33,7 +33,7 @@ export default function HomePage() {
       }
     }
 
-    fetchProducts()
+    fetchFeaturedProducts()
   }, [])
 
   return (
