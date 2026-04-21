@@ -78,7 +78,7 @@ export default function AdminStocksPage() {
         }),
       })
 
-      // ✅ update UI
+      // update UI
       setProducts(prev =>
           prev.map(p =>
               p.id === id ? { ...p, stock: current.stock } : p
@@ -93,7 +93,7 @@ export default function AdminStocksPage() {
     } catch (err) {
       console.error('Failed to update stock', err)
 
-      // 🔁 rollback UI
+      // rollback UI
       setProducts(prev =>
           prev.map(p =>
               p.id === id ? { ...p, stock: previousStock } : p
