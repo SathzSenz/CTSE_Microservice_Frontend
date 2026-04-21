@@ -22,7 +22,7 @@ export default function AddProductPage() {
         e.preventDefault()
 
         try {
-            const res = await fetch('http://localhost:8080/admin/products', {
+            const res = await fetch('http://ctse-product-alb-1026051491.eu-north-1.elb.amazonaws.com:8080/api/admin/products', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

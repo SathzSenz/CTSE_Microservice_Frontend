@@ -16,7 +16,7 @@ export default function HomePage() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const res = await fetch('http://localhost:8080/products')
+        const res = await fetch('http://ctse-product-alb-1026051491.eu-north-1.elb.amazonaws.com:8080/api/products')
         const data = await res.json()
 
         const enriched: Product[] = data.map((p: any) => ({

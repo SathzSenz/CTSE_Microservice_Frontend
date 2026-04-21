@@ -31,7 +31,7 @@ export default function AdminStocksPage() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch('http://localhost:8080/api/products')
+        const res = await fetch('http://ctse-product-alb-1026051491.eu-north-1.elb.amazonaws.com:8080/api/api/products')
 
         if (!res.ok) throw new Error('Failed to fetch')
 
@@ -65,7 +65,7 @@ export default function AdminStocksPage() {
 
     try {
       // 🔥 CALL YOUR BACKEND HERE
-      await fetch('http://localhost:8080/admin/stock/update', {
+      await fetch('http://ctse-product-alb-1026051491.eu-north-1.elb.amazonaws.com:8080/api/admin/stock/update', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

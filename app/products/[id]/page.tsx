@@ -19,7 +19,7 @@ export default function ProductDetailsPage() {
   useEffect(() => {
     async function fetchProduct() {
       try {
-        const res = await fetch(`http://localhost:8080/api/products/${params.id}`)
+        const res = await fetch(`http://ctse-product-alb-1026051491.eu-north-1.elb.amazonaws.com:8080/api/api/products/${params.id}`)
         if (!res.ok) throw new Error('Failed to fetch')
         const data = await res.json()
         setProduct(data)
