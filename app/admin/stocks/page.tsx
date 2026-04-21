@@ -1,13 +1,12 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import type { Product } from '@/lib/dummy-data'
+import { useEffect, useState } from 'react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { useToast } from '@/hooks/use-toast'
+import { useAuth } from '@/lib/auth-context'
 
 type StockProduct = {
   id: string
@@ -23,9 +22,11 @@ function getStockStatus(stock: number) {
 }
 
 export default function AdminStocksPage() {
+  const { token, user } = useAuth()
   const [products, setProducts] = useState<StockProduct[]>([])
   const [loading, setLoading] = useState(true)
   const [updatingId, setUpdatingId] = useState<string | null>(null)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
   const { toast } = useToast()
 
   useEffect(() => {
@@ -69,8 +70,8 @@ export default function AdminStocksPage() {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          Role: localStorage.getItem('role') || '',
+          Authorization: `Bearer ${token}`,
+          Role: user?.role || '',
         },
         body: JSON.stringify({
           product_id: id,
@@ -107,6 +108,41 @@ export default function AdminStocksPage() {
       })
     } finally {
       setUpdatingId(null)
+    }
+  }
+
+  async function handleDelete(id: string) {
+    if (!window.confirm('Are you sure you want to delete this product?')) return
+
+    setDeletingId(id)
+
+    try {
+      const res = await fetch(`http://ctse-product-alb-1026051491.eu-north-1.elb.amazonaws.com:8080/admin/products/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Role: user?.role || '',
+        },
+      })
+
+      if (!res.ok) throw new Error('Failed to delete')
+
+      setProducts(prev => prev.filter(p => p.id !== id))
+
+      toast({
+        title: 'Product deleted',
+        description: 'The product has been removed from the inventory.',
+      })
+
+    } catch (err) {
+      console.error('Failed to delete product', err)
+      toast({
+        title: 'Delete failed',
+        description: 'Could not delete product',
+        variant: 'destructive',
+      })
+    } finally {
+      setDeletingId(null)
     }
   }
 
@@ -159,13 +195,22 @@ export default function AdminStocksPage() {
                   <TableCell>
                     <Badge variant={status.variant}>{status.label}</Badge>
                   </TableCell>
-                  <TableCell className="text-right">
+                  <TableCell className="text-right flex items-center justify-end gap-2">
                     <Button
                       size="sm"
+                      className="text-white"
                       onClick={() => handleSave(product.id)}
-                      disabled={updatingId === product.id}
+                      disabled={updatingId === product.id || deletingId === product.id}
                     >
                       {updatingId === product.id ? 'Saving...' : 'Save'}
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="destructive"
+                      onClick={() => handleDelete(product.id)}
+                      disabled={updatingId === product.id || deletingId === product.id}
+                    >
+                      {deletingId === product.id ? 'Deleting...' : 'Delete'}
                     </Button>
                   </TableCell>
                 </TableRow>
