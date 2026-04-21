@@ -38,11 +38,11 @@ export default function AddProductPage() {
 
             if (!res.ok) throw new Error('Failed')
 
-            alert('Product added successfully ✅')
+            alert('Product added successfully')
 
         } catch (err) {
             console.error(err)
-            alert('Error adding product ❌')
+            alert('Error adding product')
         }
     }
 

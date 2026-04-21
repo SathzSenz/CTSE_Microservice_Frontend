@@ -31,7 +31,7 @@ export default function AdminStocksPage() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch('http://ctse-product-alb-1026051491.eu-north-1.elb.amazonaws.com:8080/api/api/products')
+        const res = await fetch('http://ctse-product-alb-1026051491.eu-north-1.elb.amazonaws.com:8080/api/products')
 
         if (!res.ok) throw new Error('Failed to fetch')
 
@@ -78,7 +78,7 @@ export default function AdminStocksPage() {
         }),
       })
 
-      // ✅ update UI
+      // update UI
       setProducts(prev =>
           prev.map(p =>
               p.id === id ? { ...p, stock: current.stock } : p
@@ -93,7 +93,7 @@ export default function AdminStocksPage() {
     } catch (err) {
       console.error('Failed to update stock', err)
 
-      // 🔁 rollback UI
+      // rollback UI
       setProducts(prev =>
           prev.map(p =>
               p.id === id ? { ...p, stock: previousStock } : p
