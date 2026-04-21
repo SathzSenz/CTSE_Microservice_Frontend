@@ -1,8 +1,10 @@
 'use client'
 
 import { useState } from 'react'
+import { useAuth } from '@/lib/auth-context'
 
 export default function AddProductPage() {
+    const { token, user } = useAuth()
     const [form, setForm] = useState({
         id: '',
         name: '',
@@ -13,6 +15,7 @@ export default function AddProductPage() {
         image: '',
         stock: 0,
     })
+    const [loading, setLoading] = useState(false)
 
     function handleChange(e: any) {
         setForm({ ...form, [e.target.name]: e.target.value })
@@ -21,13 +24,14 @@ export default function AddProductPage() {
     async function handleSubmit(e: any) {
         e.preventDefault()
 
+        setLoading(true)
         try {
-            const res = await fetch('http://ctse-product-alb-1026051491.eu-north-1.elb.amazonaws.com:8080/api/admin/products', {
+            const res = await fetch('http://ctse-product-alb-1026051491.eu-north-1.elb.amazonaws.com:8080/admin/products', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
-                    Role: localStorage.getItem('role') || '',
+                    Authorization: `Bearer ${token}`,
+                    Role: user?.role || '',
                 },
                 body: JSON.stringify({
                     ...form,
@@ -43,6 +47,8 @@ export default function AddProductPage() {
         } catch (err) {
             console.error(err)
             alert('Error adding product')
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -61,8 +67,11 @@ export default function AddProductPage() {
     <input name="image" placeholder="Image URL" onChange={handleChange} className="w-full border p-2" />
     <input name="stock" placeholder="Stock" type="number" onChange={handleChange} className="w-full border p-2" />
 
-    <button className="bg-black text-white px-4 py-2 rounded">
-        Add Product
+    <button 
+        disabled={loading}
+        className="bg-black text-white px-4 py-2 rounded disabled:opacity-50"
+    >
+        {loading ? 'Adding...' : 'Add Product'}
     </button>
     </form>
     </div>
