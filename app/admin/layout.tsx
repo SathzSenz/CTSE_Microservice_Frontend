@@ -17,8 +17,6 @@ const NAV = [
   { href: '/admin/users',    icon: Users,            label: 'Users' },
   { href: '/admin/settings', icon: Settings,         label: 'Settings' },
   { href: '/admin/stocks',   icon: Package,         label: 'Stock' },
-  { href: '/admin/users',    icon: Users,           label: 'Users' },
-  { href: '/admin/settings', icon: Settings,        label: 'Settings' },
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
